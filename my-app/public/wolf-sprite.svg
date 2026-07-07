@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 120" width="960" height="120">
+  <defs>
+    <style>
+      .wolf-body { fill: #374151; }
+      .wolf-head { fill: #1f2937; }
+      .wolf-leg { fill: #4b5563; }
+      .wolf-tail { fill: #6b7280; }
+    </style>
+  </defs>
+  
+  <!-- Frame 1: Contact (front leg forward) -->
+  <g transform="translate(0, 0)">
+    <!-- Body -->
+    <ellipse class="wolf-body" cx="60" cy="60" rx="35" ry="20"/>
+    <!-- Head -->
+    <circle class="wolf-head" cx="95" cy="45" r="15"/>
+    <!-- Ears -->
+    <polygon class="wolf-head" points="88,32 92,20 96,32"/>
+    <polygon class="wolf-head" points="96,32 100,20 104,32"/>
+    <!-- Snout -->
+    <ellipse class="wolf-head" cx="110" cy="48" rx="8" ry="5"/>
+    <!-- Front legs -->
+    <line class="wolf-leg" x1="75" y1="75" x2="85" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="75" x2="55" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <!-- Back legs -->
+    <line class="wolf-leg" x1="40" y1="75" x2="30" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="75" x2="40" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <!-- Tail -->
+    <path class="wolf-tail" d="M25,55 Q10,40 5,50" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <!-- Eye -->
+    <circle cx="100" cy="43" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 2: Recoil (leg pushing back) -->
+  <g transform="translate(120, 0)">
+    <ellipse class="wolf-body" cx="60" cy="58" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="43" r="15"/>
+    <polygon class="wolf-head" points="88,30 92,18 96,30"/>
+    <polygon class="wolf-head" points="96,30 100,18 104,30"/>
+    <ellipse class="wolf-head" cx="110" cy="46" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="73" x2="90" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="73" x2="50" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="73" x2="25" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="73" x2="45" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,53 Q8,35 3,48" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="41" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 3: Passing (legs crossing) -->
+  <g transform="translate(240, 0)">
+    <ellipse class="wolf-body" cx="60" cy="55" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="40" r="15"/>
+    <polygon class="wolf-head" points="88,27 92,15 96,27"/>
+    <polygon class="wolf-head" points="96,27 100,15 104,27"/>
+    <ellipse class="wolf-head" cx="110" cy="43" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="70" x2="70" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="70" x2="75" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="70" x2="35" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="70" x2="45" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,50 Q5,30 0,45" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="38" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 4: Drive (power stroke) -->
+  <g transform="translate(360, 0)">
+    <ellipse class="wolf-body" cx="60" cy="58" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="43" r="15"/>
+    <polygon class="wolf-head" points="88,30 92,18 96,30"/>
+    <polygon class="wolf-head" points="96,30 100,18 104,30"/>
+    <ellipse class="wolf-head" cx="110" cy="46" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="73" x2="95" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="73" x2="45" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="73" x2="20" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="73" x2="50" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,53 Q10,40 8,52" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="41" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 5: Lift (front leg lifting) -->
+  <g transform="translate(480, 0)">
+    <ellipse class="wolf-body" cx="60" cy="55" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="40" r="15"/>
+    <polygon class="wolf-head" points="88,27 92,15 96,27"/>
+    <polygon class="wolf-head" points="96,27 100,15 104,27"/>
+    <ellipse class="wolf-head" cx="110" cy="43" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="70" x2="80" y2="95" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="70" x2="55" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="70" x2="30" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="70" x2="40" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,50 Q5,35 2,48" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="38" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 6: Reach (front leg extending) -->
+  <g transform="translate(600, 0)">
+    <ellipse class="wolf-body" cx="60" cy="58" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="43" r="15"/>
+    <polygon class="wolf-head" points="88,30 92,18 96,30"/>
+    <polygon class="wolf-head" points="96,30 100,18 104,30"/>
+    <ellipse class="wolf-head" cx="110" cy="46" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="73" x2="100" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="73" x2="50" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="73" x2="25" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="73" x2="45" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,53 Q8,38 5,50" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="41" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 7: Back extension (rear legs pushing) -->
+  <g transform="translate(720, 0)">
+    <ellipse class="wolf-body" cx="60" cy="55" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="40" r="15"/>
+    <polygon class="wolf-head" points="88,27 92,15 96,27"/>
+    <polygon class="wolf-head" points="96,27 100,15 104,27"/>
+    <ellipse class="wolf-head" cx="110" cy="43" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="70" x2="85" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="70" x2="60" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="70" x2="20" y2="100" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="70" x2="50" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,50 Q10,42 12,52" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="38" r="2" fill="white"/>
+  </g>
+  
+  <!-- Frame 8: Cycle complete (return to contact) -->
+  <g transform="translate(840, 0)">
+    <ellipse class="wolf-body" cx="60" cy="60" rx="35" ry="20"/>
+    <circle class="wolf-head" cx="95" cy="45" r="15"/>
+    <polygon class="wolf-head" points="88,32 92,20 96,32"/>
+    <polygon class="wolf-head" points="96,32 100,20 104,32"/>
+    <ellipse class="wolf-head" cx="110" cy="48" rx="8" ry="5"/>
+    <line class="wolf-leg" x1="75" y1="75" x2="85" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="65" y1="75" x2="55" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="40" y1="75" x2="30" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <line class="wolf-leg" x1="30" y1="75" x2="40" y2="105" stroke="#4b5563" stroke-width="4" stroke-linecap="round"/>
+    <path class="wolf-tail" d="M25,55 Q10,40 5,50" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="100" cy="43" r="2" fill="white"/>
+  </g>
+</svg>
