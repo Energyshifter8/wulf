@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
-import { ParticlesProvider, Particles } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
 import type { ISourceOptions } from "@tsparticles/engine";
+import { Particles, ParticlesProvider } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import { useMemo } from "react";
 
 interface SpiderNetProps {
   className?: string;
