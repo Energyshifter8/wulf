@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SpiderNet } from "@/components/SpiderNet";
+import { CursorTrail } from "@/components/CursorTrail";
 
 const stats = [
   { label: "Nodes Active", value: "2,847", color: "text-neon-cyan" },
@@ -165,6 +166,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <CursorTrail />
       <SpiderNet />
 
       {/* Cyberpunk overlays */}
