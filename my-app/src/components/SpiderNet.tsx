@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { tsParticles } from "@tsparticles/engine";
-import { loadSlim } from "@tsparticles/slim";
+import { loadFull } from "tsparticles";
 import type { ISourceOptions } from "@tsparticles/engine";
 
 const Particles = dynamic(
@@ -16,10 +16,10 @@ interface SpiderNetProps {
 }
 
 export function SpiderNet({ className = "" }: SpiderNetProps) {
-  const [init, setInit] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    loadSlim(tsParticles).then(() => setInit(true));
+    loadFull(tsParticles).then(() => setReady(true));
   }, []);
 
   const options: ISourceOptions = useMemo(
@@ -103,7 +103,7 @@ export function SpiderNet({ className = "" }: SpiderNetProps) {
     [],
   );
 
-  if (!init) return null;
+  if (!ready) return null;
 
   return (
     <div className={`absolute inset-0 ${className}`}>
