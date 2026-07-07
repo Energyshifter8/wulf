@@ -1,34 +1,27 @@
 "use client";
 
+import { VideoScrubber } from "@/components/VideoScrubber";
 import { WolfRunner } from "@/components/WolfRunner";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      {/* Hero Section */}
-      <section className="h-screen flex items-center justify-center">
+      {/* Hero Video Section */}
+      <VideoScrubber
+        src="/video.mp4"
+        poster="/wolf-hero-poster.jpg"
+        pinDurationVh={300}
+        transitionStart={0.85}
+      >
         <div className="text-center">
-          <h1 className="text-6xl font-bold mb-4 tracking-tight">
-            Wolf Runner
-          </h1>
-          <p className="text-xl text-zinc-400 mb-8">
-            Scroll to see the wolf run
+          <h2 className="mb-4 text-5xl font-bold tracking-tight text-white drop-shadow-lg">
+            The Hunt Begins
+          </h2>
+          <p className="text-xl text-zinc-300">
+            Scroll to witness the wolf in motion
           </p>
-          <div className="animate-bounce">
-            <svg
-              className="w-6 h-6 mx-auto text-zinc-500"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </div>
         </div>
-      </section>
+      </VideoScrubber>
 
       {/* Wolf Animation Section */}
       <WolfRunner
@@ -41,7 +34,7 @@ export default function Home() {
         className="bg-gradient-to-b from-zinc-900 to-zinc-950"
       />
 
-      {/* Spacer for scroll */}
+      {/* End spacer */}
       <section className="h-screen flex items-center justify-center">
         <p className="text-2xl text-zinc-500">End of animation</p>
       </section>
