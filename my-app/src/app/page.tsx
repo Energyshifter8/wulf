@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-zinc-950 text-white">
       {/* Hero Video Section */}
       <VideoScrubber
-        src="/video.mp4"
+        src="/wolf-hero.mp4"
         poster="/wolf-hero-poster.jpg"
         pinDurationVh={300}
         transitionStart={0.85}

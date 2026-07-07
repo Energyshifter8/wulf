@@ -11,6 +11,7 @@ interface VideoScrubberProps {
   poster?: string;
   pinDurationVh?: number;
   transitionStart?: number;
+  fps?: number;
   className?: string;
   children?: React.ReactNode;
 }
@@ -20,6 +21,7 @@ export function VideoScrubber({
   poster,
   pinDurationVh = 300,
   transitionStart = 0.85,
+  fps = 24,
   className = "",
   children,
 }: VideoScrubberProps) {
@@ -33,6 +35,8 @@ export function VideoScrubber({
   const lastUpdateTime = useRef(0);
   const pendingTime = useRef<number | null>(null);
   const rafId = useRef<number | null>(null);
+
+  const frameDuration = 1 / fps;
 
   const canSeekSmoothly = useCallback((video: HTMLVideoElement): boolean => {
     if (video.readyState < 2) return false;
@@ -52,14 +56,16 @@ export function VideoScrubber({
   const seekToTime = useCallback(
     (video: HTMLVideoElement, time: number) => {
       const clampedTime = Math.max(0, Math.min(time, video.duration || 0));
+      const snappedTime =
+        Math.round(clampedTime / frameDuration) * frameDuration;
 
       if (canSeekSmoothly(video)) {
-        video.currentTime = clampedTime;
+        video.currentTime = snappedTime;
       } else {
-        pendingTime.current = clampedTime;
+        pendingTime.current = snappedTime;
       }
     },
-    [canSeekSmoothly],
+    [canSeekSmoothly, frameDuration],
   );
 
   useEffect(() => {
@@ -174,6 +180,7 @@ export function VideoScrubber({
     pinDurationVh,
     transitionStart,
     seekToTime,
+    fps,
   ]);
 
   return (
