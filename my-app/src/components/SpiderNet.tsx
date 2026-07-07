@@ -58,7 +58,7 @@ function SpiderNetInner({ className = "" }: SpiderNetProps) {
           density: {
             enable: true,
           },
-          value: 320,
+          value: 200,
         },
         opacity: {
           value: {
