@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SpiderNet } from "@/components/SpiderNet";
 
 const stats = [
@@ -27,26 +27,141 @@ const features = [
   },
 ];
 
-const terminalLines = [
+const bootLines = [
   "$ initializing spider-net protocol...",
   "> scanning network topology... OK",
   "> 2,847 nodes connected",
   "> encryption layer: AES-256-GCM",
   "> status: OPERATIONAL",
-  "$ _",
 ];
 
+const responses: Record<string, string[]> = {
+  help: [
+    "Available commands:",
+    "  help     — show this message",
+    "  status   — show network status",
+    "  scan     — scan for nodes",
+    "  nodes    — list connected nodes",
+    "  ping     — ping the mesh",
+    "  clear    — clear terminal",
+    "  whoami   — who are you?",
+    "  date     — current timestamp",
+    "  matrix   — enter the matrix",
+  ],
+  status: [
+    "> Network: ONLINE",
+    "> Uptime: 99.97%",
+    "> Latency: 12ms",
+    "> Throughput: 1.2 TB/s",
+    "> Active connections: 2,847",
+  ],
+  scan: [
+    "> initiating deep scan...",
+    "> found 14 new nodes in sector 7G",
+    "> found 3 relay nodes",
+    "> scan complete — 17 new nodes added",
+  ],
+  nodes: [
+    "> NODE_ID       STATUS    REGION",
+    "> sn-00a1       ACTIVE    us-east-1",
+    "> sn-00b2       ACTIVE    eu-west-2",
+    "> sn-00c3       STANDBY   ap-south-1",
+    "> sn-00d4       ACTIVE    us-west-2",
+    "> total: 2,847 nodes online",
+  ],
+  ping: [
+    "> PING spider-net mesh",
+    "> 64 bytes from sn-00a1: time=8ms",
+    "> 64 bytes from sn-00b2: time=12ms",
+    "> 64 bytes from sn-00c3: time=15ms",
+    "> avg latency: 11.6ms — all clear",
+  ],
+  whoami: [
+    "> you are a operator of SpiderNet",
+    "> access level: ADMIN",
+    "> clearance: LEVEL 5",
+  ],
+  date: ["> 2026-07-07T00:00:00.000Z"],
+  matrix: [
+    "> Wake up, Neo...",
+    "> The Matrix has you...",
+    "> Follow the white rabbit.",
+    "> Knock, knock.",
+  ],
+};
+
 export default function Home() {
-  const [currentLine, setCurrentLine] = useState(0);
+  const [booting, setBooting] = useState(true);
+  const [bootLine, setBootLine] = useState(0);
+  const [history, setHistory] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentLine((prev) =>
-        prev < terminalLines.length - 1 ? prev + 1 : prev,
-      );
-    }, 800);
-    return () => clearInterval(interval);
-  }, []);
+    if (!booting) return;
+    if (bootLine < bootLines.length) {
+      const timer = setTimeout(() => setBootLine((p) => p + 1), 400);
+      return () => clearTimeout(timer);
+    }
+    const timer = setTimeout(() => setBooting(false), 600);
+    return () => clearTimeout(timer);
+  }, [bootLine, booting]);
+
+  useEffect(() => {
+    if (!booting && inputRef.current) {
+      inputRef.current.focus();
+    }
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [booting]);
+
+  const processCommand = (cmd: string) => {
+    const trimmed = cmd.trim().toLowerCase();
+    const prompt = `$ ${cmd}`;
+
+    if (trimmed === "clear") {
+      setHistory([]);
+      return;
+    }
+
+    const response = responses[trimmed];
+    if (response) {
+      setHistory((prev) => [
+        ...prev,
+        prompt,
+        ...response,
+      ]);
+    } else if (trimmed === "") {
+      setHistory((prev) => [...prev, prompt]);
+    } else {
+      setHistory((prev) => [
+        ...prev,
+        prompt,
+        `> command not found: ${trimmed}`,
+        '> type "help" for available commands',
+      ]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      processCommand(input);
+      setInput("");
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const promptLines = history
+        .map((line) => line)
+        .filter((line) => line.startsWith("$ "));
+      if (promptLines.length > 0) {
+        setInput(promptLines[promptLines.length - 1].slice(2));
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setInput("");
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-background">
@@ -203,20 +318,50 @@ export default function Home() {
                 </span>
               </div>
               {/* Terminal body */}
-              <div className="p-6 font-mono text-sm leading-relaxed">
-                {terminalLines.slice(0, currentLine + 1).map((line, i) => (
-                  <div
-                    key={line}
-                    className={`${
-                      i === currentLine ? "text-neon-cyan" : "text-white/50"
-                    }`}
-                  >
+              <div
+                ref={terminalRef}
+                className="max-h-80 overflow-y-auto p-6 font-mono text-sm leading-relaxed"
+              >
+                {/* Boot sequence */}
+                {bootLines.slice(0, bootLine).map((line) => (
+                  <div key={line} className="text-white/50">
                     {line}
-                    {i === currentLine && line.endsWith("_") && (
-                      <span className="terminal-cursor" />
-                    )}
                   </div>
                 ))}
+
+                {!booting && (
+                  <>
+                    {/* Command history */}
+                    {history.map((line, i) => (
+                      <div
+                        key={`${line}-${i}`}
+                        className={
+                          line.startsWith("$ ")
+                            ? "text-neon-cyan"
+                            : "text-white/50"
+                        }
+                      >
+                        {line}
+                      </div>
+                    ))}
+
+                    {/* Input line */}
+                    <div className="flex items-center text-neon-cyan">
+                      <span className="mr-2 select-none">$</span>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        className="flex-1 bg-transparent text-white outline-none"
+                        spellCheck={false}
+                        autoComplete="off"
+                      />
+                      <span className="terminal-cursor" />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
