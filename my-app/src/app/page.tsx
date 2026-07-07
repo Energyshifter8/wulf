@@ -167,7 +167,8 @@ export default function Home() {
     <div className="relative min-h-screen bg-background">
       <SpiderNet />
 
-      {/* Scan line effect */}
+      {/* Cyberpunk overlays */}
+      <div className="vignette" />
       <div className="scan-line pointer-events-none fixed inset-0 z-50" />
 
       {/* Content */}
@@ -211,23 +212,30 @@ export default function Home() {
         </nav>
 
         {/* Hero */}
-        <section className="flex min-h-screen flex-col items-center justify-center px-6 pt-20">
+        <section className="grid-bg flex min-h-screen flex-col items-center justify-center px-6 pt-20">
           <div className="animate-fade-in-up mb-8 flex items-center gap-2">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-neon-cyan" />
-            <span className="font-mono text-xs tracking-[0.3em] text-neon-cyan/70 uppercase">
-              System v4.2.1
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#00ffff]" />
+            <span className="font-mono text-xs tracking-[0.3em] text-[#00ffff]/70 uppercase">
+              [ SYSTEM v4.2.1 ONLINE ]
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-neon-cyan" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#00ffff]" />
           </div>
 
           <h1
-            className="animate-fade-in-up mb-6 text-center font-mono text-5xl font-bold tracking-tight text-white md:text-7xl lg:text-8xl"
+            className="animate-fade-in-up mb-6 text-center font-mono text-6xl font-bold tracking-tight text-white md:text-8xl lg:text-9xl"
             style={{ animationDelay: "0.2s" }}
           >
             <span className="neon-text animate-pulse-glow">SPIDER</span>
-            <span className="text-white/20">_</span>
+            <span className="text-[#ff00ff]/40 mx-2">_</span>
             <span className="gradient-text">NET</span>
           </h1>
+
+          <div
+            className="animate-fade-in-up mb-4 font-mono text-xs tracking-[0.5em] text-[#ff0040]/60 uppercase"
+            style={{ animationDelay: "0.3s" }}
+          >
+            // CLASSIFIED //
+          </div>
 
           <p
             className="animate-fade-in-up mb-12 max-w-xl text-center font-mono text-sm leading-relaxed text-white/40 md:text-base"
@@ -235,8 +243,8 @@ export default function Home() {
           >
             Distributed neural mesh network. Self-evolving architecture.
             <br />
-            <span className="text-neon-cyan/60">
-              Zero downtime. Infinite scale.
+            <span className="neon-text-green">
+              &gt; Zero downtime. Infinite scale. Total control.
             </span>
           </p>
 
@@ -264,10 +272,10 @@ export default function Home() {
             className="animate-fade-in-up flex flex-col items-center gap-2 text-white/20"
             style={{ animationDelay: "0.8s" }}
           >
-            <span className="font-mono text-[10px] tracking-widest uppercase">
-              Scroll
+            <span className="font-mono text-[10px] tracking-widest uppercase animate-flicker">
+              [ SCROLL TO HACK ]
             </span>
-            <div className="h-8 w-px animate-pulse bg-gradient-to-b from-neon-cyan/50 to-transparent" />
+            <div className="h-8 w-px animate-pulse bg-gradient-to-b from-[#00ffff]/50 to-transparent" />
           </div>
         </section>
 
@@ -275,11 +283,11 @@ export default function Home() {
         <section id="nodes" className="relative px-6 py-32">
           <div className="mx-auto max-w-6xl">
             <div className="mb-16 flex items-center gap-4">
-              <div className="h-px flex-1 bg-gradient-to-r from-neon-cyan/20 to-transparent" />
-              <span className="font-mono text-xs tracking-[0.3em] text-neon-cyan/50 uppercase">
-                Core Modules
+              <div className="h-px flex-1 bg-gradient-to-r from-[#ff00ff]/30 to-transparent" />
+              <span className="font-mono text-xs tracking-[0.3em] text-[#ff00ff]/60 uppercase animate-flicker">
+                {"< CORE MODULES />"}
               </span>
-              <div className="h-px flex-1 bg-gradient-to-l from-neon-cyan/20 to-transparent" />
+              <div className="h-px flex-1 bg-gradient-to-l from-[#ff00ff]/30 to-transparent" />
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
@@ -289,10 +297,10 @@ export default function Home() {
                   className="card-hover glass neon-border group cursor-default rounded-lg p-8"
                   style={{ animationDelay: `${i * 0.15}s` }}
                 >
-                  <div className="mb-6 font-mono text-4xl font-bold text-neon-cyan/20 group-hover:text-neon-cyan/40 transition-colors">
-                    {feature.icon}
+                  <div className="mb-6 font-mono text-4xl font-bold text-[#00ffff]/20 group-hover:text-[#00ffff]/40 transition-colors">
+                    [{feature.icon}]
                   </div>
-                  <h3 className="mb-3 font-mono text-lg font-semibold text-white">
+                  <h3 className="mb-3 font-mono text-lg font-semibold text-[#00ffff]">
                     {feature.title}
                   </h3>
                   <p className="font-mono text-sm leading-relaxed text-white/40">
@@ -309,12 +317,15 @@ export default function Home() {
           <div className="mx-auto max-w-3xl">
             <div className="glass neon-border rounded-lg overflow-hidden">
               {/* Terminal header */}
-              <div className="flex items-center gap-2 border-b border-white/5 px-4 py-3">
-                <div className="h-3 w-3 rounded-full bg-red-500/80" />
-                <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
-                <div className="h-3 w-3 rounded-full bg-green-500/80" />
-                <span className="ml-4 font-mono text-xs text-white/30">
-                  spider-net — bash
+              <div className="flex items-center gap-2 border-b border-[#00ffff]/20 px-4 py-3">
+                <div className="h-3 w-3 rounded-full bg-[#ff0040] shadow-[0_0_8px_#ff0040]" />
+                <div className="h-3 w-3 rounded-full bg-[#ff0040]/50 shadow-[0_0_8px_#ff0040]" />
+                <div className="h-3 w-3 rounded-full bg-[#00ff41] shadow-[0_0_8px_#00ff41]" />
+                <span className="ml-4 font-mono text-xs text-[#00ffff]/50">
+                  root@spider-net:~#
+                </span>
+                <span className="ml-auto font-mono text-[10px] text-[#ff0040] animate-flicker">
+                  REC ●
                 </span>
               </div>
               {/* Terminal body */}
@@ -368,12 +379,12 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/5 px-6 py-8">
-          <div className="mx-auto flex max-w-6xl items-center justify-between font-mono text-xs text-white/20">
-            <span>SpiderNet Protocol v4.2.1</span>
+        <footer className="border-t border-[#00ffff]/10 px-6 py-8">
+          <div className="mx-auto flex max-w-6xl items-center justify-between font-mono text-xs text-[#00ffff]/30">
+            <span className="animate-flicker">SPIDER_NET // PROTOCOL v4.2.1</span>
             <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-neon-cyan" />
-              All systems operational
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00ff41] shadow-[0_0_8px_#00ff41]" />
+              <span className="neon-text-green">ALL SYSTEMS NOMINAL</span>
             </span>
           </div>
         </footer>
