@@ -1,27 +1,15 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import dynamic from "next/dynamic";
-import { tsParticles } from "@tsparticles/engine";
-import { loadFull } from "tsparticles";
+import { useMemo } from "react";
+import { ParticlesProvider, Particles } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import type { ISourceOptions } from "@tsparticles/engine";
-
-const Particles = dynamic(
-  () => import("@tsparticles/react").then((mod) => mod.Particles),
-  { ssr: false },
-);
 
 interface SpiderNetProps {
   className?: string;
 }
 
-export function SpiderNet({ className = "" }: SpiderNetProps) {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    loadFull(tsParticles).then(() => setReady(true));
-  }, []);
-
+function SpiderNetInner({ className = "" }: SpiderNetProps) {
   const options: ISourceOptions = useMemo(
     () => ({
       fullScreen: false,
@@ -47,14 +35,14 @@ export function SpiderNet({ className = "" }: SpiderNetProps) {
       },
       particles: {
         color: {
-          value: "#6b7280",
+          value: "#9ca3af",
         },
         links: {
-          color: "#4b5563",
-          distance: 150,
+          color: "#6b7280",
+          distance: 180,
           enable: true,
-          opacity: 0.3,
-          width: 1,
+          opacity: 0.5,
+          width: 1.5,
         },
         move: {
           enable: true,
@@ -70,7 +58,7 @@ export function SpiderNet({ className = "" }: SpiderNetProps) {
           density: {
             enable: true,
           },
-          value: 80,
+          value: 320,
         },
         opacity: {
           value: {
@@ -88,8 +76,8 @@ export function SpiderNet({ className = "" }: SpiderNetProps) {
         },
         size: {
           value: {
-            min: 1,
-            max: 2,
+            min: 1.5,
+            max: 3,
           },
           animation: {
             enable: true,
@@ -103,11 +91,17 @@ export function SpiderNet({ className = "" }: SpiderNetProps) {
     [],
   );
 
-  if (!ready) return null;
-
   return (
     <div className={`absolute inset-0 ${className}`}>
       <Particles id="spider-net" options={options} className="h-full w-full" />
     </div>
+  );
+}
+
+export function SpiderNet(props: SpiderNetProps) {
+  return (
+    <ParticlesProvider init={(engine) => loadSlim(engine)}>
+      <SpiderNetInner {...props} />
+    </ParticlesProvider>
   );
 }
