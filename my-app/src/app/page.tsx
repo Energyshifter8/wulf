@@ -174,7 +174,7 @@ export default function Home() {
       <div className="scan-line pointer-events-none fixed inset-0 z-50" />
 
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-[110]">
         {/* Nav */}
         <nav className="glass fixed top-0 left-0 right-0 z-40 border-b border-white/5 px-6 py-4">
           <div className="mx-auto flex max-w-6xl items-center justify-between">
@@ -334,6 +334,7 @@ export default function Home() {
               <div
                 ref={terminalRef}
                 className="max-h-80 overflow-y-auto p-6 font-mono text-sm leading-relaxed"
+                onClick={() => inputRef.current?.focus()}
               >
                 {/* Boot sequence */}
                 {bootLines.slice(0, bootLine).map((line) => (

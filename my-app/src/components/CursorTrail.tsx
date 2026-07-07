@@ -89,7 +89,7 @@ export function CursorTrail() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[999]"
+      className="pointer-events-none fixed inset-0 z-[60]"
     />
   );
 }
