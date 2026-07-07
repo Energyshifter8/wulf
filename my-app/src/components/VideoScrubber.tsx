@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,26 +10,19 @@ interface VideoScrubberProps {
   src: string;
   poster?: string;
   pinDurationVh?: number;
-  transitionStart?: number;
   fps?: number;
   className?: string;
-  children?: React.ReactNode;
 }
 
 export function VideoScrubber({
   src,
   poster,
-  pinDurationVh = 300,
-  transitionStart = 0.85,
+  pinDurationVh = 600,
   fps = 24,
   className = "",
-  children,
 }: VideoScrubberProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  const [showPoster, setShowPoster] = useState(true);
 
   const lastUpdateTime = useRef(0);
   const rafId = useRef<number | null>(null);
@@ -67,89 +60,41 @@ export function VideoScrubber({
   useEffect(() => {
     const video = videoRef.current;
     const container = containerRef.current;
-    const overlay = overlayRef.current;
-    if (!video || !container || !overlay) return;
+    if (!video || !container) return;
 
-    const handleCanPlay = () => {
-      setShowPoster(false);
-    };
+    const st = ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: `+=${pinDurationVh}vh`,
+      pin: true,
+      scrub: 0.5,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        const now = performance.now();
+        if (now - lastUpdateTime.current < 16) return;
+        lastUpdateTime.current = now;
 
-    const handleProgress = () => {
-      if (video.buffered.length > 0 && video.readyState >= 2) {
-        setShowPoster(false);
-      }
-    };
+        if (rafId.current !== null) {
+          cancelAnimationFrame(rafId.current);
+        }
 
-    video.addEventListener("canplay", handleCanPlay);
-    video.addEventListener("canplaythrough", handleCanPlay);
-    video.addEventListener("progress", handleProgress);
-
-    const transitionDuration = 1 - transitionStart;
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: "top top",
-        end: `+=${pinDurationVh}vh`,
-        pin: true,
-        scrub: 0.5,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const now = performance.now();
-          if (now - lastUpdateTime.current < 16) return;
-          lastUpdateTime.current = now;
-
-          if (rafId.current !== null) {
-            cancelAnimationFrame(rafId.current);
+        rafId.current = requestAnimationFrame(() => {
+          const progress = self.progress;
+          const duration = video.duration || 0;
+          if (duration > 0) {
+            seekToTime(video, progress * duration);
           }
-
-          rafId.current = requestAnimationFrame(() => {
-            const progress = self.progress;
-            const duration = video.duration || 0;
-            if (duration > 0) {
-              seekToTime(video, progress * duration);
-            }
-          });
-        },
+        });
       },
     });
 
-    tl.to(
-      video,
-      {
-        opacity: 0,
-        scale: 1.05,
-        ease: "power2.inOut",
-      },
-      transitionStart,
-    );
-
-    tl.fromTo(
-      overlay,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        ease: "power2.out",
-      },
-      transitionStart + 0.05,
-    );
-
     return () => {
-      video.removeEventListener("canplay", handleCanPlay);
-      video.removeEventListener("canplaythrough", handleCanPlay);
-      video.removeEventListener("progress", handleProgress);
-
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current);
       }
-
-      tl.kill();
-      ScrollTrigger.getAll().forEach((st) => {
-        st.kill();
-      });
+      st.kill();
     };
-  }, [pinDurationVh, transitionStart, seekToTime, fps]);
+  }, [pinDurationVh, seekToTime, fps]);
 
   return (
     <div
@@ -158,43 +103,15 @@ export function VideoScrubber({
       style={{ height: `${pinDurationVh}vh` }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="relative h-full w-full">
-          <video
-            ref={videoRef}
-            className="absolute inset-0 h-full w-full origin-center object-cover"
-            src={src}
-            poster={poster}
-            muted
-            playsInline
-            preload="auto"
-            style={{
-              willChange: "transform, opacity",
-            }}
-          />
-
-          {showPoster && poster && (
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${poster})` }}
-            />
-          )}
-
-          <div
-            ref={overlayRef}
-            className="absolute inset-0 flex items-center justify-center opacity-0"
-          >
-            {children || (
-              <div className="text-center">
-                <h2 className="mb-4 text-5xl font-bold tracking-tight text-white">
-                  The Wolf Awaits
-                </h2>
-                <p className="text-xl text-zinc-300">
-                  Continue scrolling to explore
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover"
+          src={src}
+          poster={poster}
+          muted
+          playsInline
+          preload="auto"
+        />
       </div>
     </div>
   );
