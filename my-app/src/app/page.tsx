@@ -1,7 +1,6 @@
 "use client";
 
 import { VideoScrubber } from "@/components/VideoScrubber";
-import { WolfRunner } from "@/components/WolfRunner";
 
 export default function Home() {
   return (
@@ -22,17 +21,6 @@ export default function Home() {
           </p>
         </div>
       </VideoScrubber>
-
-      {/* Wolf Animation Section */}
-      <WolfRunner
-        spriteSheet="/wolf-sprite.svg"
-        frameCount={8}
-        frameWidth={120}
-        frameHeight={120}
-        segments={6}
-        segmentHeight={100}
-        className="bg-gradient-to-b from-zinc-900 to-zinc-950"
-      />
 
       {/* End spacer */}
       <section className="h-screen flex items-center justify-center">
