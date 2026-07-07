@@ -28,12 +28,10 @@ export function VideoScrubber({
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   const [showPoster, setShowPoster] = useState(true);
 
   const lastUpdateTime = useRef(0);
-  const pendingTime = useRef<number | null>(null);
   const rafId = useRef<number | null>(null);
 
   const frameDuration = 1 / fps;
@@ -61,8 +59,6 @@ export function VideoScrubber({
 
       if (canSeekSmoothly(video)) {
         video.currentTime = snappedTime;
-      } else {
-        pendingTime.current = snappedTime;
       }
     },
     [canSeekSmoothly, frameDuration],
@@ -84,19 +80,11 @@ export function VideoScrubber({
       }
     };
 
-    const handleTimeUpdate = () => {
-      if (pendingTime.current !== null) {
-        const diff = Math.abs(video.currentTime - pendingTime.current);
-        if (diff < 0.1) {
-          pendingTime.current = null;
-        }
-      }
-    };
-
     video.addEventListener("canplay", handleCanPlay);
     video.addEventListener("canplaythrough", handleCanPlay);
     video.addEventListener("progress", handleProgress);
-    video.addEventListener("timeupdate", handleTimeUpdate);
+
+    const transitionDuration = 1 - transitionStart;
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -116,8 +104,6 @@ export function VideoScrubber({
           }
 
           rafId.current = requestAnimationFrame(() => {
-            if (!video || video.paused) return;
-
             const progress = self.progress;
             const duration = video.duration || 0;
             if (duration > 0) {
@@ -128,44 +114,31 @@ export function VideoScrubber({
       },
     });
 
-    const transitionDuration = 1 - transitionStart;
-
-    gsap.to(video, {
-      opacity: 0,
-      scale: 1.05,
-      duration: transitionDuration,
-      ease: "power2.inOut",
-      scrollTrigger: {
-        trigger: container,
-        start: `top+=${transitionStart * pinDurationVh}vh top`,
-        end: `+=${transitionDuration * pinDurationVh}vh`,
-        scrub: 0.5,
+    tl.to(
+      video,
+      {
+        opacity: 0,
+        scale: 1.05,
+        ease: "power2.inOut",
       },
-    });
+      transitionStart,
+    );
 
-    gsap.fromTo(overlay,
+    tl.fromTo(
+      overlay,
       { opacity: 0, y: 30 },
       {
         opacity: 1,
         y: 0,
-        duration: transitionDuration,
         ease: "power2.out",
-        scrollTrigger: {
-          trigger: container,
-          start: `top+=${(transitionStart + 0.05) * pinDurationVh}vh top`,
-          end: `+=${transitionDuration * pinDurationVh}vh`,
-          scrub: 0.5,
-        },
       },
+      transitionStart + 0.05,
     );
-
-    timelineRef.current = tl;
 
     return () => {
       video.removeEventListener("canplay", handleCanPlay);
       video.removeEventListener("canplaythrough", handleCanPlay);
       video.removeEventListener("progress", handleProgress);
-      video.removeEventListener("timeupdate", handleTimeUpdate);
 
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current);
@@ -176,12 +149,7 @@ export function VideoScrubber({
         st.kill();
       });
     };
-  }, [
-    pinDurationVh,
-    transitionStart,
-    seekToTime,
-    fps,
-  ]);
+  }, [pinDurationVh, transitionStart, seekToTime, fps]);
 
   return (
     <div
@@ -191,7 +159,6 @@ export function VideoScrubber({
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="relative h-full w-full">
-          {/* Video element */}
           <video
             ref={videoRef}
             className="absolute inset-0 h-full w-full origin-center object-cover"
@@ -205,7 +172,6 @@ export function VideoScrubber({
             }}
           />
 
-          {/* Poster overlay (shown until buffered) */}
           {showPoster && poster && (
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -213,7 +179,6 @@ export function VideoScrubber({
             />
           )}
 
-          {/* Transition overlay content */}
           <div
             ref={overlayRef}
             className="absolute inset-0 flex items-center justify-center opacity-0"
